@@ -1,14 +1,18 @@
 package kg.mega.mega_taxi.model;
 
 import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
+@NoArgsConstructor
 @Entity
 @Table(name = "orders")
+@Component
 public class Orders {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long orderId;
 
     @Column(name = "source_point")
     private String sourcePoint;
@@ -16,16 +20,17 @@ public class Orders {
     @Column(name = "destination_point")
     private String destinationPoint;
 
-    @ManyToOne
-    @JoinColumn(name = "id")
+    @OneToOne
+    @JoinColumn(name = "client_Id", referencedColumnName = "userId")
     private Users client;
 
-    @ManyToOne
-    @JoinColumn(name = "id")
+    @OneToOne
+    @JoinColumn(name = "driver_Id", referencedColumnName = "userId")
     private Users driver;
 
-    @Column(name = "order_status")
-    private String orderStatus;
+    @OneToOne
+    @JoinColumn(name = "order_status", referencedColumnName = "status_name")
+    private OrderStatus order_status;
 
     @Column(name = "price")
     private double price;

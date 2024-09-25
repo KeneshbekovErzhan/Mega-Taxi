@@ -1,17 +1,20 @@
 package kg.mega.mega_taxi.model;
 
 import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cascade;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
-
+@NoArgsConstructor
 @Entity
 @Table(name = "roles")
+@Component
 public class Roles {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long roleId;
 
     @Column(name = "role")
     private String role;
@@ -19,8 +22,8 @@ public class Roles {
     @ManyToMany(fetch = FetchType.LAZY)
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinTable(name = "roles_has_permissions",
-            joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id")
+            joinColumns = @JoinColumn(name = "roleId", referencedColumnName = "roleId"),
+            inverseJoinColumns = @JoinColumn(name = "permissionId", referencedColumnName = "permissionId")
     )
     private List<Permissions> permissions;
 }
