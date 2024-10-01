@@ -28,8 +28,9 @@ public class OrdersHistory {
     private Users driver;
 
     @OneToOne
-    @JoinColumn(name = "order_status", referencedColumnName = "status_name")
-    private OrderStatus order_status;
+    @JoinColumn(name = "order_status")
+    private OrderStatus orderStatus;
+
 
     @Column(name = "price")
     private double price;

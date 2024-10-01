@@ -2,10 +2,14 @@ package kg.mega.mega_taxi.model;
 
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 @NoArgsConstructor
+@Setter
+@Getter
 @Entity
 @Table(name = "users")
 @Component
