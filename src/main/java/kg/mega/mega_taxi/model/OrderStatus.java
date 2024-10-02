@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class OrderStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long orderStatusId;
+    private Long id;
 
     @Column(name = "status_name")
     private String statusName;

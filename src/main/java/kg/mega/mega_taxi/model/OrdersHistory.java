@@ -1,13 +1,15 @@
 package kg.mega.mega_taxi.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
-@NoArgsConstructor
+
 @Entity
 @Table(name = "order_history")
 @Component
+@Data
 public class OrdersHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,9 +30,8 @@ public class OrdersHistory {
     private Users driver;
 
     @OneToOne
-    @JoinColumn(name = "order_status")
-    private OrderStatus orderStatus;
-
+    @JoinColumn(name = "status_order")
+    private OrderStatus statusOrder;
 
     @Column(name = "price")
     private double price;
