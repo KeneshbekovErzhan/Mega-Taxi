@@ -28,10 +28,10 @@ public class UserController {
         return usersService.getUserById(id);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/update/{id}")
     public ResponseEntity<?> updateUser(@RequestBody SaveUser saveUser, @PathVariable Long id){
         usersService.updateUser(saveUser, id);
-        return ResponseEntity.ok("User uodated!");
+        return ResponseEntity.ok("User updated!");
     }
 
     @DeleteMapping("/delete")

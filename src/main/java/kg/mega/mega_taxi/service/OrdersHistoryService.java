@@ -1,29 +1,77 @@
 package kg.mega.mega_taxi.service;
 
-import kg.mega.mega_taxi.model.Cars;
-import kg.mega.mega_taxi.model.OrdersHistory;
-import kg.mega.mega_taxi.repository.OrderHistoryRepository;
+import kg.mega.mega_taxi.model.*;
+import kg.mega.mega_taxi.repository.*;
+import kg.mega.mega_taxi.request.OrderSave;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import java.util.List;
+
+@Component
 public class OrdersHistoryService {
 
     @Autowired
-    private OrdersHistory ordersHistory;
-
+    private OrderRepository orderRepository;
     @Autowired
-    private OrderHistoryRepository orderHistoryRepository;
+    private CarRepository carRepository;
+    @Autowired
+    private UsersRepository usersRepository;
+    @Autowired
+    OrderStatusRepository orderStatusRepository;
 
+    public void saveOrder(OrderSave orderSave){
+        Orders orders = new Orders();
+        orders.setSourcePoint(orderSave.getSourcePoint());
+        orders.setDestinationPoint(orderSave.getDestinationPoint());
+        orders.setPrice(orderSave.getPrice());
 
-    public void saveOrderHistory(){
+        OrderStatus orderStatus = orderStatusRepository.getReferenceById(orderSave.getStatusOrder());
+        orders.setStarusOrder(orderStatus);
+
+        Users users = usersRepository.getReferenceById(orderSave.getDriverId());
+        orders.setDriver(users);
+
+        Users users1 = usersRepository.getReferenceById(orderSave.getClientId());
+        orders.setClient(users1);
+
     }
 
-    public OrdersHistory getOrderHistoryById(){
-        return null;
+    public Orders getOrderById(Long id){
+        return orderRepository.findById(id).orElse(null);
     }
 
-    public void deleteOrderHistory(){
+    public void deleteOrder(Long id){
+        carRepository.deleteById(id);
     }
 
-    public void updateOrderHistory(){
+    public void updateOrder(OrderSave orderSave, Long id){
+        Orders orders = orderRepository.getReferenceById(id);
+        if(orders != null){
+            Orders orderToUpdate = new Orders();
+            orderToUpdate.setSourcePoint(orderSave.getSourcePoint());
+            orderToUpdate.setDestinationPoint(orderSave.getDestinationPoint());
+            orderToUpdate.setPrice(orderSave.getPrice());
+
+            OrderStatus orderStatus = orderStatusRepository.getReferenceById(orderSave.getStatusOrder());
+            orderToUpdate.setStarusOrder(orderStatus);
+
+            Users users = usersRepository.getReferenceById(orderSave.getDriverId());
+            orderToUpdate.setDriver(users);
+
+            Users users1 = usersRepository.getReferenceById(orderSave.getClientId());
+            orderToUpdate.setClient(users1);
+        }
+    }
+
+    public List<Orders> getAllCars(String filter){
+        if (filter == null || filter.isEmpty()){
+            return orderRepository.findAll();
+        }
+        return orderRepository.findAll().stream()
+                .filter(car2 -> {
+                            return car2.getSourcePoint().equals(filter)||car2.getDestinationPoint().equals(filter);
+                        }
+                ).toList();
     }
 }

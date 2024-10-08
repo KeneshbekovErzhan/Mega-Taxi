@@ -1,6 +1,7 @@
 package kg.mega.mega_taxi.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cascade;
 import org.springframework.stereotype.Component;
@@ -10,6 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "roles")
 @Component
+@Data
 public class Roles {
 
     @Id
